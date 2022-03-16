@@ -55,7 +55,9 @@ async function routes(request, response){
       return stream.pipe(response);
   }
   //padrao do response é text/html
-  return response.end('hello!');
+  //return response.end('hello!');
+  response.writeHead(404)
+  return response.end()
 }
 
 function handleError(error, response){

@@ -6,8 +6,12 @@ import {
   beforeEach 
 } from '@jest/globals';
 import config from '../../../server/config.js';
-import { Controller } from '../../../server/controller.js';
-import { handler } from '../../../server/routes.js';
+import { 
+  Controller 
+} from '../../../server/controller.js';
+import { 
+  handler 
+} from '../../../server/routes.js';
 import TestUtil from '../_util/testUtil.js';
 
 const {
@@ -22,12 +26,13 @@ describe('#Routes - test suite for api response', ()=> {
   beforeEach(() => {
     jest.restoreAllMocks()
     jest.clearAllMocks()
-  })
+  });
 
   test('GET / - should redirect to home page', async () => {
     const params = TestUtil.defaltHandleParams();
     params.request.method = 'GET';
     params.request.url = '/';
+
     await handler(...params.values());
 
     expect(params.response.writeHead).toBeCalledWith(
@@ -37,7 +42,8 @@ describe('#Routes - test suite for api response', ()=> {
       }
     )
     expect(params.response.end).toHaveBeenCalledWith()
-  })
+  });
+
   test(`GET /home - should response with ${pages.homeHTML} file stream`, async () => {
     const params = TestUtil.defaltHandleParams();
     params.request.method = 'GET';
@@ -61,7 +67,8 @@ describe('#Routes - test suite for api response', ()=> {
 
     expect(Controller.prototype.getFileStream).toBeCalledWith(pages.homeHTML)
     expect(mockFileStream.pipe).toHaveBeenCalledWith(params.response)
-  })
+  });
+
   test(`GET /controller - should response with ${pages.controllerHTML} file stream`, async () => {
     const params = TestUtil.defaltHandleParams();
     params.request.method = 'GET';
@@ -85,7 +92,8 @@ describe('#Routes - test suite for api response', ()=> {
 
     expect(Controller.prototype.getFileStream).toBeCalledWith(pages.controllerHTML)
     expect(mockFileStream.pipe).toHaveBeenCalledWith(params.response)
-  })
+  });
+
   test(`GET /index.html - should response with file stream`, async () => {
     const params = TestUtil.defaltHandleParams();
     const filename = 'index.html';
@@ -116,7 +124,7 @@ describe('#Routes - test suite for api response', ()=> {
         'Content-Type': CONTENT_TYPE[expectedType]
       }
     )
-  })
+  });
 
   test(`GET /file.ext - should response with file stream`, async () => {
     const params = TestUtil.defaltHandleParams();
@@ -144,10 +152,11 @@ describe('#Routes - test suite for api response', ()=> {
     expect(Controller.prototype.getFileStream).toBeCalledWith(filename)
     expect(mockFileStream.pipe).toHaveBeenCalledWith(params.response)
     expect(params.response.writeHead).not.toHaveBeenCalled()
-  })
-  test(`GET /unknow - given an inexistent route it should respond with 404`, async () => {
+  });
+
+  test(`POST /unknow - given an inexistent route it should respond with 404`, async () => {
     const params = TestUtil.defaltHandleParams();
-    params.request.method = 'GET';
+    params.request.method = 'POST';
     params.request.url = '/unknow';
     
     await handler(...params.values());
@@ -173,7 +182,7 @@ describe('#Routes - test suite for api response', ()=> {
 
       expect(params.response.writeHead).toHaveBeenCalledWith(404)
       expect(params.response.end).toHaveBeenCalled()
-    })
+    });
 
     test('given an error it should respond with 500', async() => {
       const params = TestUtil.defaltHandleParams()
